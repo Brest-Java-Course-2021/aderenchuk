@@ -28,7 +28,7 @@ public class Main {
 
         PriceSelector priceSelector = new PriceSelector();
 
-        Double[] enteredValues = new Double[2];
+        BigDecimal[] enteredValues = new BigDecimal[2];
         Scanner scanner = new Scanner(System.in);
         String inputValue;
         int i = 0;
@@ -42,21 +42,25 @@ public class Main {
             if (inputValue.equalsIgnoreCase("Q")) {
                 break;
             } else if(isCorrectDoubleValue(inputValue)) {
-                enteredValues[i] = Double.parseDouble(inputValue);
+                enteredValues[i] = new BigDecimal(inputValue);
                     i++;
             } else {
                 System.out.println("Incorrect value: " + inputValue);
             }
 
-            BigDecimal price = priceSelector.selectPriceValue(distancePriceMap, new BigInteger(enteredValues[0].toString()));
-            System.out.println("Price: " + price);
 
 
             if (i == 2) {
-                Double result = enteredValues[0] * price.doubleValue();
-                System.out.println("Result: " + result);
+                BigDecimal distancePrice = priceSelector.selectPriceValue(distancePriceMap, enteredValues[0].toBigInteger());
+                System.out.println("Distance price: " + distancePrice);
+
+                BigDecimal weightPrice = priceSelector.selectPriceValue(weightPriceMap, enteredValues[1].toBigInteger());
+                System.out.println("Weight price: " + weightPrice);
+
+                BigDecimal result = enteredValues[0].multiply(distancePrice).add(enteredValues[1].multiply(weightPrice));
+                System.out.println("Result : " + result);
             }
-        } while (i < 2);
+        } while (true);
 
     }
 
