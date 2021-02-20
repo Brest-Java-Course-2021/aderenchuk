@@ -8,8 +8,8 @@ import java.util.TreeSet;
 
 public class PriceSelector {
 
-    public BigDecimal selectPriceValue(Map<Integer, BigDecimal> valuesMap, BigInteger targetValue) {
-        SortedSet<Integer> sortedKeys = new TreeSet<>(valuesMap.keySet());
+    public BigDecimal selectPriceValue(Map<Integer, BigDecimal> valueMap, BigDecimal targetValue) {
+        SortedSet<Integer> sortedKeys = new TreeSet<>(valueMap.keySet());
         Integer resultKey = sortedKeys.first();
         for(Integer key : sortedKeys) {
             if (resultKey >= targetValue.doubleValue()) {
@@ -18,7 +18,8 @@ public class PriceSelector {
             resultKey = key;
         }
 
-        BigDecimal resultValue = valuesMap.get(resultKey);
+        BigDecimal resultValue = valueMap.get(resultKey);
+        System.out.println("Value: " + targetValue + " -> " + resultValue);
         return  resultValue;
     }
 }
