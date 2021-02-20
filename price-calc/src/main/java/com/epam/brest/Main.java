@@ -6,6 +6,8 @@ import com.epam.brest.model.ReadData;
 import com.epam.brest.model.Status;
 import com.epam.brest.model.StatusType;
 import com.epam.brest.selector.PriceSelector;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -23,10 +25,15 @@ public class Main {
         // Price per kg
         // Result = d * pr1 + w * pr2
 
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring-config.xml");
+
+        FileReader fileReader = applicationContext.getBean(FileReader.class);
+        PriceSelector priceSelector = applicationContext.getBean(PriceSelector.class);
+
         Scanner scanner = new Scanner(System.in);
-        Status currentStatus = new ReadData();
+        Status currentStatus = new ReadData(priceSelector, fileReader, scanner);
         while (currentStatus.getType() != StatusType.EXIT) {
-            currentStatus = currentStatus.handle(scanner);
+            currentStatus = currentStatus.handle();
         }
     }
 
